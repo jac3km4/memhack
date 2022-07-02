@@ -27,7 +27,7 @@ pub fn foreign_fn(attr: TokenStream, item: TokenStream) -> TokenStream {
     match names {
         Ok(names) => {
             let block = quote! {{
-                    let addr = memhack::get_address(#offset);
+                    let addr = memhack::resolve_rva(#offset);
                     let func: extern "C" fn(#inputs) #output = unsafe { std::mem::transmute(addr) };
                     func(#(#names),*)
             }};
