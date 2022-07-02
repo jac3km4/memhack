@@ -1,12 +1,12 @@
 use proc_macro::TokenStream;
 use quote::{quote, ToTokens};
 use syn::parse::{Parse, Parser};
-use syn::{self, parse_macro_input, Block, FnArg, Ident, ItemFn, LitInt, Pat, Signature};
+use syn::{self, parse_macro_input, Block, Expr, FnArg, Ident, ItemFn, Pat, Signature};
 
 #[proc_macro_attribute]
 pub fn foreign_fn(attr: TokenStream, item: TokenStream) -> TokenStream {
     let mut item: ItemFn = parse_macro_input!(item as ItemFn);
-    let offset = parse_macro_input!(attr as LitInt);
+    let offset = parse_macro_input!(attr as Expr);
     let Signature { inputs, output, .. } = &item.sig;
 
     let names: syn::Result<Vec<Ident>> = inputs
